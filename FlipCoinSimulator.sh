@@ -1,11 +1,18 @@
 echo $"Welcome to Coin Flip Simulator"
 
-flippin_coin=$((RANDOM%2))
+heads=0
+tails=0
 
-if [[ $flippin_coin -eq 0 ]]; then
-	echo Head Wins
-else
-	echo Tail Wins
-fi
+for (( i = 0; i < 20; i++ )); do
+	flipping_coin=$((RANDOM%2))
 
+	if [[ $flipping_coin -eq 0 ]]; then
+		((++heads))
+	else
+		((++tails))
+	fi
 
+done
+
+echo Head Won $heads times
+echo Tail Won $tails times
