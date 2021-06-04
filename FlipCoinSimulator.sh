@@ -1,5 +1,6 @@
 echo $"Welcome to Coin Flip Simulator"
 
+
 head=0
 tail=0
 flag=0
@@ -14,6 +15,22 @@ while [ $head != 21 ] && [ $tail != 21 ]; do
 
 	if [[ $head -eq 20 ]] && [[ $tail -eq 20 ]]; then
 		flag=1
+		diff=0
+		while [ $diff != 2 ]; do
+			flipping_coin=$((RANDOM%2))
+			if [[ flipping_coin -eq 0 ]]; then
+				head=$(($head+1))
+			else
+				tail=$(($tail+1))
+			fi
+
+			if [[ $head -gt $tail ]]; then
+				diff=$(($head - $tail))
+			else
+				diff=$(($tail - $head))
+			fi
+		done
+
 		break
 	fi
 
@@ -25,6 +42,14 @@ if [[ $head -eq 21 ]] && [[ $flag -eq 0 ]]; then
 elif [[ $tail -eq 21 ]] && [[ $flag -eq 0 ]]; then
 	echo $'\n'"Tail Wins $tail times"
 	echo "Tail wins by $(($tail-$head)) tosses"
-elif [[ $flag -eq 1 ]]; then
+elif [[ $diff -eq 2 ]] && [[ $head -gt $tail ]]; then
 	echo $'\n'"Both are Tied"
+	echo "Tosses continued till the difference was $diff"
+	echo "Head won with $head tosses"
+	echo "Tail had $tail tosses"
+elif [[ $diff -eq 2 ]] && [[ $head -lt $tail ]]; then
+	echo $'\n'"Both are Tied"
+	echo "Tosses continued till the difference was $diff"
+	echo "Tail won with $tail tosses"
+	echo "Head had $head tosses"
 fi
